@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#e0f2fe" />
+  <title>FrostGlide Beta — U.S. Figure Skating Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Live Snowfall & Crystal Canvas -->
+  <canvas id="snowCanvas"></canvas>
+
+  <!-- Main Mobile-First Container -->
+  <div class="app-shell">
+
+    <!-- Top Glass Header -->
+    <header class="glass-header">
+      <div class="brand">
+        <span class="brand-icon">❄️</span>
+        <div>
+          <h1>FrostGlide <span class="beta-badge">Beta</span></h1>
+          <p class="subtitle">U.S. Figure Skating & Rink Finder</p>
+        </div>
+      </div>
+      <button id="snowToggle" class="icon-btn" aria-label="Toggle Snowfall" title="Toggle Snowfall">
+        🌨️
+      </button>
+    </header>
+
+    <!-- Animated Ice Rink Hero Banner -->
+    <section class="hero-rink glass-card">
+      <div class="hero-text">
+        <span class="pill-tag">Winter Edition • Live Snow & Ice</span>
+        <h2>Glide Across the Ice</h2>
+        <p>Explore 36 American skating stars, master 15 elements, care for your skate boots, and find U.S. rinks.</p>
+      </div>
+
+      <!-- Animated Skating Scene -->
+      <div class="rink-stage">
+        <div class="ice-glow"></div>
+        <div class="blade-trail"></div>
+        <div class="skater-actor">
+          <svg viewBox="0 0 120 120" class="skater-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="scarf-wave" d="M52 38 C38 35, 26 42, 16 37 C24 46, 38 45, 52 43 Z" fill="#38bdf8"/>
+            <circle cx="62" cy="24" r="9" fill="#fed7aa"/>
+            <path d="M53 22 C53 13, 71 13, 71 22 Z" fill="#0284c7"/>
+            <circle cx="62" cy="12" r="3" fill="#ffffff"/>
+            <path d="M56 34 L68 34 L74 62 L50 62 Z" fill="#0ea5e9"/>
+            <path d="M48 58 L76 58 L82 68 L42 68 Z" fill="#38bdf8"/>
+            <path d="M56 38 Q42 32 34 26" stroke="#fed7aa" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M68 38 Q84 30 94 24" stroke="#fed7aa" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M60 68 L58 96" stroke="#fed7aa" stroke-width="5" stroke-linecap="round"/>
+            <path d="M66 66 L94 56" stroke="#fed7aa" stroke-width="5" stroke-linecap="round"/>
+            <rect x="53" y="93" width="12" height="7" rx="2" fill="#ffffff"/>
+            <path d="M49 102 L69 102 M54 100 L54 102 M63 100 L63 102" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+            <rect x="91" y="51" width="11" height="7" rx="2" transform="rotate(-18 91 51)" fill="#ffffff"/>
+            <path d="M101 47 L106 63" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="ice-surface"></div>
+      </div>
+    </section>
+
+    <!-- Tab Content Views -->
+    <main class="content-area">
+
+      <!-- TAB 1: U.S. STARS (36 Skaters) -->
+      <section id="tab-stars" class="tab-view active">
+        <div class="section-head">
+          <h3>U.S. Skating Icons</h3>
+          <span class="hint-text" id="skaterCountText">36 Skaters</span>
+        </div>
+
+        <div class="filter-chips" id="disciplineFilters">
+          <button class="chip active" data-filter="all">All (36)</button>
+          <button class="chip" data-filter="men">Men's Singles</button>
+          <button class="chip" data-filter="women">Women's Singles</button>
+          <button class="chip" data-filter="pairs-dance">Pairs & Ice Dance</button>
+          <button class="chip" data-filter="legends">Legends</button>
+        </div>
+
+        <div id="skatersGrid" class="skaters-list"></div>
+      </section>
+
+      <!-- TAB 2: SKILL VAULT (15 Elements with Images) -->
+      <section id="tab-vault" class="tab-view">
+        <div class="section-head">
+          <h3>Skill Vault</h3>
+          <span class="hint-text" id="progressCounter">0 / 15 Mastered</span>
+        </div>
+
+        <div class="progress-bar-wrap glass-card">
+          <div class="progress-info">
+            <span>Your Element Progress</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-track">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="filter-chips" id="elementFilters">
+          <button class="chip active" data-efilter="all">All (15)</button>
+          <button class="chip" data-efilter="jump">Jumps</button>
+          <button class="chip" data-efilter="spin">Spins</button>
+          <button class="chip" data-efilter="edge-move">Spirals & Moves</button>
+        </div>
+
+        <div id="elementsList" class="elements-list"></div>
+      </section>
+
+      <!-- TAB 3: SKATE BOOT & BLADE CARE -->
+      <section id="tab-care" class="tab-view">
+        <div class="section-head">
+          <h3>Skate Boot & Blade Care</h3>
+          <span class="hint-text">Boots, Soakers & Blades</span>
+        </div>
+
+        <!-- Blade Sharpening Tracker -->
+        <div class="glass-card tool-card">
+          <div class="tool-title">
+            <span>⛸️</span>
+            <h4>Blade Sharpening Tracker</h4>
+          </div>
+          <p class="tool-desc">Most figure blades need sharpening every 25–30 hours on the ice.</p>
+
+          <label class="input-label" for="hoursInput">
+            Hours skated since last sharpening: <strong id="hoursValue">12 hrs</strong>
+          </label>
+          <input type="range" id="hoursInput" min="0" max="40" value="12" class="ice-slider" />
+
+          <div id="bladeStatusBox" class="status-box good">
+            <strong>Edges Looking Sharp!</strong>
+            <p>About 18 hours of clean edge grip left.</p>
+          </div>
+        </div>
+
+        <!-- Skate Boot & Maintenance Checklist -->
+        <div class="section-head" style="margin-top: 18px;">
+          <h3>Boot & Equipment Care Guide</h3>
+        </div>
+        <div id="careTipsList" class="care-list"></div>
+      </section>
+
+      <!-- TAB 4: U.S. RINKS BY STATE & CITY -->
+      <section id="tab-rinks" class="tab-view">
+        <div class="section-head">
+          <h3>U.S. Skating Rinks</h3>
+          <span class="hint-text">State & City Finder</span>
+        </div>
+
+        <div class="glass-card finder-card">
+          <div class="finder-grid">
+            <div class="select-group">
+              <label for="stateSelect">U.S. State</label>
+              <select id="stateSelect" class="ice-select"></select>
+            </div>
+            <div class="select-group">
+              <label for="citySelect">City / Area</label>
+              <select id="citySelect" class="ice-select"></select>
+            </div>
+          </div>
+          <p class="finder-note" id="finderSummary">Showing rinks near your selection.</p>
+        </div>
+
+        <div id="rinksList" class="rinks-list" style="margin-top: 12px;"></div>
+      </section>
+
+    </main>
+
+    <!-- Footer with Secret Skating Cat Easter Egg -->
+    <footer class="app-footer">
+      <p>FrostGlide Beta • Winter & Ice Community</p>
+      <div class="secret-cat" id="catEasterEgg" title="Meow on ice!">
+        <span>🐱⛸️</span>
+      </div>
+    </footer>
+
+    <!-- 4-Item Bottom Mobile Navigation Bar -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-target="tab-stars">
+        <span class="nav-icon">❄️</span>
+        <span class="nav-label">Skaters</span>
+      </button>
+      <button class="nav-item" data-target="tab-vault">
+        <span class="nav-icon">✨</span>
+        <span class="nav-label">Skill Vault</span>
+      </button>
+      <button class="nav-item" data-target="tab-care">
+        <span class="nav-icon">🥾</span>
+        <span class="nav-label">Skate Care</span>
+      </button>
+      <button class="nav-item" data-target="tab-rinks">
+        <span class="nav-icon">📍</span>
+        <span class="nav-label">Rinks</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Skater Detail Bottom Sheet Modal -->
+  <div id="skaterModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <button id="closeModal" class="close-modal-btn" aria-label="Close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
